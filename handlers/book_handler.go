@@ -35,6 +35,10 @@ func AddBook(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	if book.Title == "" || book.Price <= 0 {
+		http.Error(w, "Invalid input", http.StatusBadRequest)
+		return
+	}
 	book.ID = nextID
 	nextID++
 	books[book.ID] = book
