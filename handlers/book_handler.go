@@ -35,6 +35,11 @@ func AddBook(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	if book.Title == "" || book.Price <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
+		return
+	}
+
 	book.ID = nextID
 	nextID++
 	books[book.ID] = book
