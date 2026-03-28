@@ -15,7 +15,15 @@ var nextID = 1
 func GetBooks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var bookList []models.Book
+
+	category := r.URL.Query().Get("category")
+
 	for _, book := range books {
+		if category != "" {
+			if strconv.Itoa(book.CategoryID) != category {
+				continue
+			}
+		}
 		bookList = append(bookList, book)
 	}
 	json.NewEncoder(w).Encode(bookList)
