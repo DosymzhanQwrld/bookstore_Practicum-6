@@ -12,10 +12,20 @@ var books = make(map[int]models.Book)
 var nextID = 1
 
 func GetBooks(c *gin.Context) {
+
 	var bookList []models.Book
+
+	category := c.Query("category")
+
 	for _, book := range books {
+		if category != "" {
+			if strconv.Itoa(book.CategoryID) == category {
+				continue
+			}
+		}
 		bookList = append(bookList, book)
 	}
+
 	c.JSON(http.StatusOK, bookList)
 }
 
